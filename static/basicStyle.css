@@ -1,0 +1,33 @@
+/* Makes the navbar stick to the top of the page*/
+.navbar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: rgb(25, 151, 130);
+}
+/* makes the links in navbar move to right, color, padding*/
+.navbar a {
+	float: left;
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+/* This makes the links change color when hovering over them*/
+.navbar a:hover {
+    background: rgb(91, 188, 172);
+    color: black;
+}
+
+/* Moves the down so it's not underneath the navbar*/
+body {
+	margin-top: 60px;
+}
+
+#spacer{
+    display: block;
+    height: 60px;
+    content: '';
+}

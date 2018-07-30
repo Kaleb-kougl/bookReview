@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block style %}
+"{{ url_for('static', filename='landingPageStyle.css') }}"
+{% endblock %}
+
+{% block title %}
+Book Review
+{% endblock %}
+
+{% block heading %}
+Welcome to book Reviews!
+
+{% endblock %}
+
+{% block body %}
+<p>
+If you have not registered before please register here.
+</p>
+<form id="register" action="{{ url_for('success')}}" method="POST">
+  <input type="text" placeholder="First Name" name="firstName" required>
+  <input type="text" placeholder="Last Name" name="lastName" required>
+  <input type="text" placeholder="Email" name="email" required>
+  <input type="text" placeholder="Password" name="password" required>
+  <input type = "submit">
+</form>
+<p>
+  <a href="logIn">If you already have an account click here.</a>
+</p>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Search
+{% endblock %}
+
+{% block heading %}
+Search for any Book!
+{% endblock %}
+
+{% block body %}
+<form id="search" action={{ url_for('book') }} method="post">
+  <input type="text" placeholder="ISBN NUMBER" name="isbn">
+  <input type="text" placeholder="Title" name="title">
+  <input type="text" placeholder="Author" name="author">
+  <input type="submit">
+</form>
+{% endblock %}

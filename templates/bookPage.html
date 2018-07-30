@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block style %}
+{% endblock %}
+
+{% block title %}
+  Book
+{% endblock %}
+
+{% block heading %}
+  <div name="bookTitle"><b>{{ bookTitle }}</b></div>
+{% endblock %}
+
+{% block body %}
+<p>
+  <b>Author:</b> {{ bookAuthor }}
+</p>
+<p>
+  <b>ISBN:</b> {{ isbnNum }}
+</p>
+<p>
+  <b>Reviews:</b>
+</p>
+
+<h4>Your rating from 1-5:<h4>
+<form id="review" action={{ url_for('postReview') }} method="POST">
+  <label><input type="radio" name="rating" value="1">1</label>
+  <label><input type="radio" name="rating" value="2">2</label>
+  <label><input type="radio" name="rating" value="3">3</label>
+  <label><input type="radio" name="rating" value="4">4</label>
+  <label><input type="radio" name="rating" value="5">5</label>
+  <br>
+
+  <input type="text" name="textReview" placeholder="Place any comments you have about the book here." style="width: 300px;height: 300px">
+  <!-- The text in this input doesn't wrap properly. Unaware of fix, TODO -->
+  <input type="submit">
+</form>
+{% endblock %}

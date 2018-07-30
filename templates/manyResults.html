@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block style %}
+{% endblock %}
+
+{% block title %}
+  Books
+{% endblock %}
+
+{% block heading %}
+  Which book were you looking for?
+{% endblock %}
+
+{% block body %}
+<ul>
+  {% for book in books %}
+    <li> {{ book }} </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

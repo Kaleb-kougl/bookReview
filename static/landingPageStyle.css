@@ -1,0 +1,10 @@
+h1 {
+  font-style: italic;
+  font-family: cursive, sans-serif;
+}
+
+.spacer{
+    display: block;
+    height: 60px;
+    content: '';
+}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block style %}
+{% endblock %}
+
+{% block title %}
+  LogIn
+{% endblock %}
+
+{% block heading %}
+  {% if user is none %}
+  Please Log In!
+
+  {% elif loggedIn %}
+  Logged in as {{ user }}.
+
+  {% else %}
+  Log in was incorrect
+  {% endif %}
+{% endblock %}
+
+{% block body %}
+
+<form id="logIn" action={{ url_for('logIn') }} method="POST">
+  <input type="text" placeholder="EMAIL" name="email" required>
+  <input type="text" placeholder="PASSWORD" name="password" required>
+  <input type="submit">
+</form>
+{% endblock %}
