@@ -1,4 +1,4 @@
-import os
+import os, requests
 
 from flask import Flask, session, render_template, request
 from flask_session import Session
@@ -19,17 +19,6 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-
-
-#@app.route("/", methods=["GET", "POST"])
-#def new():
-#    if session.get("notes") is None:
-#        session["notes"] = []
-#    if request.method == "POST":
-#        note = request.form.get("note")
-#        session["notes"].append(note)
-
-#    return render_template("notes.html", notes=session["notes"])
 
 @app.route("/", methods=["GET"])
 def landing():
