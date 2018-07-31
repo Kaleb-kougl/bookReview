@@ -19,7 +19,20 @@
   <b>ISBN:</b> {{ isbnNum }}
 </p>
 <p>
+  <b>Published:</b> {{ year }}
+</p>
+<p>
   <b>Reviews:</b>
+  <ul>
+    <!-- iterates through the iterable -->
+{% for review in reviews %}
+<li>
+  {% for partial in review %}
+  {{ partial + " "}}
+  {% endfor %}
+</li>
+{% endfor %}
+  </ul>
 </p>
 
 <h4>Your rating from 1-5:<h4>

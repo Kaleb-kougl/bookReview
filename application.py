@@ -105,6 +105,7 @@ def book():
     isbnNum = request.form.get("isbn")
     bookAuth = request.form.get("author")
     bookTitle = request.form.get("title")
+    #get data via isbn
     if isbnNum != "":
         try:
             book = db.execute("SELECT * FROM books WHERE books.isbn=CAST(:isbnNum AS VARCHAR)", {"isbnNum":isbnNum}).fetchall()
@@ -114,7 +115,7 @@ def book():
             bookAuthor = db.execute("SELECT author FROM books WHERE books.isbn=CAST(:isbnNum AS VARCHAR)", {"isbnNum":isbnNum}).fetchone()[0]
         except:
             return render_template("error.html")
-
+    #get data via bookTitle (if title and author given)
     elif bookAuth != "" and bookTitle != "":
         try:
             book = db.execute("SELECT * FROM books WHERE books.title=CAST(:bookTitle AS VARCHAR)", {"bookTitle":bookTitle}).fetchall()
@@ -124,6 +125,7 @@ def book():
             bookAuthor = db.execute("SELECT author FROM books WHERE books.title=CAST(:bookTitle AS VARCHAR)", {"bookTitle":bookTitle}).fetchone()[0]
         except:
             return render_template("error.html")
+    #get data via bookTitle (just title given)
     elif bookTitle != "":
         try:
             book = db.execute("SELECT * FROM books WHERE books.title=CAST(:bookTitle AS VARCHAR)", {"bookTitle":bookTitle}).fetchall()
@@ -133,6 +135,7 @@ def book():
             bookAuthor = db.execute("SELECT author FROM books WHERE books.title=CAST(:bookTitle AS VARCHAR)", {"bookTitle":bookTitle}).fetchone()[0]
         except:
             return render_template("error.html")
+    #get data via author, returns multiple results
     elif bookAuth!= "":
         try:
             book = db.execute("SELECT * FROM books WHERE books.author=CAST(:bookAuth AS VARCHAR)", {"bookAuth":bookAuth}).fetchall()
@@ -142,13 +145,19 @@ def book():
                 return render_template("manyResults.html", books=book)
         except:
             return render_template("error.html")
-
+    #returns book not found
     else:
         return render_template("notFound.html")
     book_id = db.execute("SELECT id FROM books WHERE books.title=CAST(:bookTitle AS VARCHAR)", {"bookTitle":bookTitle}).fetchone()[0]
     session["book_id"] = book_id
-    print("The session book title:" + str(session["book_id"]))
-    return render_template("bookPage.html", bookTitle=bookTitle, bookAuthor=bookAuthor, isbnNum=isbnNum)
+
+    reviewCount = db.execute("SELECT COUNT(*) FROM reviews WHERE book_id=:book_id", {"book_id":str(book_id)})
+    session["reviews"] = db.execute("SELECT score, textreview FROM reviews WHERE book_id=:book_id", {"book_id":str(book_id)}).fetchall()
+    year = db.execute("SELECT year FROM books WHERE id=:id", {"id":str(book_id)}).fetchone()[0]
+
+    #take away ability to give a second review
+    db.commit()
+    return render_template("bookPage.html", bookTitle=bookTitle, bookAuthor=bookAuthor, isbnNum=isbnNum, reviews=session["reviews"], year=year)
 
 @app.route("/reviewed", methods=["POST"])
 def postReview():
@@ -157,7 +166,8 @@ def postReview():
     textReview = request.form.get("textReview")
     user_id = session.get("user")
     book_id = session.get("book_id")
-    print(f"numberReview:{numberReview}\n textReview:{textReview}\n user_id:{user_id}\n book_id:{book_id}")
+    #test Print
+    #print(f"numberReview:{numberReview}\n textReview:{textReview}\n user_id:{user_id}\n book_id:{book_id}")
     try:
         db.execute("INSERT INTO reviews (user_id, book_id, score, textreview) VALUES (:user_id , :book_id, :score, :textreview)", {"user_id":user_id, "book_id":book_id, "score":numberReview, "textreview":textReview})
         return render_template("postReview.html")
